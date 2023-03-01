@@ -1,0 +1,38 @@
+name: Artifact
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+    types: [opened, reopened]
+    branches: [master]
+
+jobs:
+  artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Get Info
+        run: |
+          echo "version=$(grep -Eo '[0-9]+(\.[0-9]+)+' CHANGELOG.md | head -n 1)" >> $GITHUB_OUTPUT
+        id: info
+      - name: Build Artifact
+        run: |
+          cd ${{ github.workspace }}
+          cwd=$(pwd)
+          git submodule update --init --recursive
+          mkdir -p ./deploy/onlyoffice
+          rsync -av --exclude='deploy' ./ ./deploy/onlyoffice
+          cd ./deploy/onlyoffice
+          rm -rf ./.github/
+          rm -rf ./.git/
+          rm ./.gitignore
+          rm ./.gitmodules
+          rm -rf ./assets/.git
+          tar -czvf onlyoffice.tar.gz ./deploy
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: onlyoffice
+          path: onlyoffice.tar.gz
