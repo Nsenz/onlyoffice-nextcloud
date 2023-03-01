@@ -29,6 +29,7 @@ jobs:
           rm -rf ./.git/
           rm ./.gitmodules
           rm -rf ./assets/.git
+          cd $cwd
           tar -czvf onlyoffice.tar.gz ./deploy
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
