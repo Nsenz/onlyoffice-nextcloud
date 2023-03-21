@@ -22,12 +22,12 @@ jobs:
       #     coverage: none
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Install PHP_CodeSniffer
-        run: |
-          curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
-          php phpcs.phar --version
-      - uses: tinovyatkin/action-php-codesniffer@v1
+      - name: Composer install
+        uses: php-actions/composer@v6
+
+      - name: PHP Code Sniffer
+        uses: php-actions/phpcs@v1
         with:
-          files: "**.php"
-          phpcs_path: php phpcs.phar
+          php_version: 8.1
+          path: [templates/, lib/, controller/, appinfo/]
           standard: PSR2
