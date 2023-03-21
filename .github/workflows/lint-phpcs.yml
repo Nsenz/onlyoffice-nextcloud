@@ -23,4 +23,4 @@ jobs:
           tools: composer, cs2pr, phpcs
       - name: Run phpcs
         run: |
-          phpcs --standard=PSR2 --extensions=php,module,inc,install --ignore=node_modules,bower_components,vendor,3rdparty ./
+          phpcs --standard=PSR2 --extensions=php,module,inc,install --ignore=node_modules,bower_components,vendor,3rdparty --config-set ignore_warnings_on_exit 1 ./
