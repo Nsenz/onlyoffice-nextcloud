@@ -29,5 +29,5 @@ jobs:
         uses: php-actions/phpcs@v1
         with:
           php_version: 8.1
-          path: [templates/, lib/, controller/, appinfo/]
+          path: templates/ lib/ controller/ appinfo/
           standard: PSR2
